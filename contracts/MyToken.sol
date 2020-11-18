@@ -4,11 +4,11 @@ pragma solidity >=0.5.1 <0.8.0;
 contract MyToken {
     string public constant name = "My Token";
     string public constant symbol = "MT";
-    uint8 public constant decimals = 18;
+    uint8 public constant decimals = 2;
     
     uint256 public totalSupply;
     
-    mapping (address => uint256) private balances;
+    mapping (address => uint256) internal balances;
     mapping(address => mapping (address => uint256)) private allowed;
     
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
