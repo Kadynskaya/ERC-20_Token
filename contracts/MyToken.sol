@@ -7,14 +7,36 @@ contract MyToken {
     uint8 public constant decimals = 2;
     
     uint256 public totalSupply;
+    address[] public owners;
+
+    address public firstOwner;
+    address public secondOwner;
     
-    mapping (address => uint256) internal balances;
-    mapping(address => mapping (address => uint256)) private allowed;
+    mapping(address => uint256) internal balances;
+    mapping(address => mapping(address => uint256)) private allowed;
+    mapping(address => bool) public ownerByAddress;
     
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event Approval(address indexed _from, address indexed _to, uint256 _value);
+
+    constructor () public {
+        firstOwner = msg.sender;
+        owners.push(firstOwner);
+        ownerByAddress[firstOwner] = true;
+        secondOwner = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2;
+        owners.push(secondOwner);
+        ownerByAddress[secondOwner] = true;
+    }
+
+    modifier onlyOwners {
+        require(
+            ownerByAddress[msg.sender] == true,
+            "Only owner can call this function."
+        );
+        _;
+    }
     
-    function mint (address to, uint value) public {
+    function mint (address to, uint value) public onlyOwners {
         require(totalSupply + value >= totalSupply && balances[to] + value >= balances[to]);
         balances[to] += value;
         totalSupply += value;

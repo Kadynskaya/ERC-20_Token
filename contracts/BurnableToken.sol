@@ -11,7 +11,7 @@ contract BurnableToken is MyToken {
     function burn(uint256 _value) public {
         require(_value > 0 && _value <= balances[msg.sender]);
 
-        if(block.timestamp > BurningPossibilityDate) {
+        if (block.timestamp > BurningPossibilityDate) {
             balances[msg.sender] -= _value;
             totalSupply -= _value;
             emit Burn(msg.sender, _value);
