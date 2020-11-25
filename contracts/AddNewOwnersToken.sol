@@ -12,25 +12,21 @@ contract AddNewOwnersToken is BurnableToken {
     mapping(address => Voting) candidates;
     
     function vote(address _newOwnerAddress) public onlyOwners {
-        for(uint256 i = 0; i < owners.length - 1; i++) {
-            require(owners[i] != _newOwnerAddress);
-        }
-        require(!candidates[_newOwnerAddress].voters[msg.sender]);
+        require(ownerByAddress[_newOwnerAddress] != true, "This candidate is already owner");
+        require(!candidates[_newOwnerAddress].voters[msg.sender], "This owner is already vote");
         candidates[_newOwnerAddress].votersCount++;
         candidates[_newOwnerAddress].voters[msg.sender] = true;
-    }
-    
-    function setOwners(address _newOwnerAddress) public onlyOwners {
-        if(candidates[_newOwnerAddress].votersCount > owners.length / 2) {
+        
+        if (candidates[_newOwnerAddress].votersCount > owners.length / 2) {
             owners.push(_newOwnerAddress);
             ownerByAddress[_newOwnerAddress] = true;
         }
         candidates[_newOwnerAddress].votersCount = 0;
-        for(uint256 i = 0; i < owners.length - 1; i++) {
+        for (uint256 i = 0; i < owners.length - 1; i++) {
             delete candidates[_newOwnerAddress].voters[owners[i]];
         }
     }
-    
+
     function getOwners() public view returns(address[] memory) {
         return owners;
     }

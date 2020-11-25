@@ -9,11 +9,12 @@ contract BurnableToken is MyToken {
     event Burn(address indexed burner, uint256 value);
 
     function burn(uint256 _value) public {
-        require(_value > 0 && _value <= balances[msg.sender]);
+        require(_value > 0 && _value <= balances[msg.sender].tokens);
 
-        if (block.timestamp > BurningPossibilityDate) {
-            balances[msg.sender] -= _value;
+        if(block.timestamp > BurningPossibilityDate) {
+            balances[msg.sender].tokens -= _value;
             totalSupply -= _value;
+
             emit Burn(msg.sender, _value);
         }
     }
