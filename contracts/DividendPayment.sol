@@ -16,7 +16,7 @@ contract DividendPayment is AddNewOwnersToken {
         return address(this).balance;
     }
 
-    function payDivideds() public payable {
+    function payDivideds() public {
         require(address(this).balance > 0 && totalSupply > 0);
         uint256 totalBalance = address(this).balance;
         for (uint256 i = 0; i < holders.length; i++) {

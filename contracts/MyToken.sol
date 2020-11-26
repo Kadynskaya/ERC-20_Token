@@ -68,7 +68,7 @@ contract MyToken {
         return balances[_owner].tokens;
     }
     
-    function transfer(address _to, uint256 _value) public returns (bool) {
+    function transfer(address _to, uint256 _value) public {
         require(_value > 0 && balances[msg.sender].tokens >= _value && balances[_to].tokens + _value > balances[_to].tokens);
         balances[msg.sender].tokens -= _value;
         balances[_to].tokens += _value;
