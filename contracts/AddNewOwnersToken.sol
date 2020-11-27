@@ -20,10 +20,11 @@ contract AddNewOwnersToken is BurnableToken {
         if (candidates[_newOwnerAddress].votersCount > owners.length / 2) {
             owners.push(_newOwnerAddress);
             ownerByAddress[_newOwnerAddress] = true;
-        }
-        candidates[_newOwnerAddress].votersCount = 0;
-        for (uint256 i = 0; i < owners.length - 1; i++) {
-            delete candidates[_newOwnerAddress].voters[owners[i]];
+
+            candidates[_newOwnerAddress].votersCount = 0;
+            for (uint256 i = 0; i < owners.length; i++) {
+                delete candidates[_newOwnerAddress].voters[owners[i]];
+            }
         }
     }
 
